@@ -55,8 +55,8 @@ namespace SearchMultiMedia
 
         private static async Task<(List<double> gabor, List<double> huMoments)> ExtractImageFeaturesAsync(string fileImage, int id)
         {
-            string gaborFile = Path.Combine(@"C:\\Users\\Admin\\source\\repos\\SearchMultiMedia\\SearchMultiMedia\\bin\\Debug\\net8.0-windows", $"gabor_features.txt");
-            string huMomentFile = Path.Combine(@"C:\\Users\\Admin\\source\\repos\\SearchMultiMedia\\SearchMultiMedia\\bin\\Debug\\net8.0-windows", $"hu_moment_features.txt");
+            string gaborFile = "gabor_features.txt";
+            string huMomentFile = "hu_moment_features.txt";
 
             string para = $"image_features.py \"{fileImage}\"";
             RunExe("python", para);

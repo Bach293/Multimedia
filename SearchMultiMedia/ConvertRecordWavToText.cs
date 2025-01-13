@@ -22,8 +22,6 @@ namespace SearchMultiMedia
 
             return text;
         }
-
-
         private static string RunExe(string fileExe, string para)
         {
             try

@@ -2,11 +2,13 @@
 using NAudio.Wave;
 using System.Diagnostics;
 using System.Text;
+using System.Configuration;
 
 namespace SearchMultiMedia
 {
     public partial class Form1 : Form
     {
+        private string connectionString = "Data Source=LAPTOP-79T4Q5ET\\BACH;Initial Catalog=DPT;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
         private WaveInEvent waveIn;
         private WaveFileWriter waveFileWriter;
         private string filePath;
@@ -96,7 +98,6 @@ namespace SearchMultiMedia
         private void btnSearch_Click(object sender, EventArgs e)
         {
             string input = textBox1.Text;
-            string connectionString = "Data Source=LAPTOP-79T4Q5ET\\BACH;Initial Catalog=DPT;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
             lblResultText.Text = "";
             lblResultAudio.Text = "";
             lblResultImage.Text = "";
@@ -163,7 +164,7 @@ namespace SearchMultiMedia
         private bool IsAudioFile(string path)
         {
             string pathUpdate = path.Replace("\"", "");
-            string[] audioExtensions = { ".wav", ".wav\"" };
+            string[] audioExtensions = { ".wav" };
             string extension = Path.GetExtension(pathUpdate).ToLower();
             return Array.Exists(audioExtensions, ext => ext == extension);
         }
@@ -251,7 +252,7 @@ namespace SearchMultiMedia
                     {
                         try
                         {
-                            string baseDirectory = @"B:\DPT\SearchForTextByVoice\audio\";
+                            string baseDirectory = ConfigurationManager.AppSettings["AudioDirectory"];
                             string fileName = record.tenFile;
                             string filePath = Path.Combine(baseDirectory, fileName);
 
@@ -331,7 +332,7 @@ namespace SearchMultiMedia
                     {
                         try
                         {
-                            string baseDirectory = @"B:\DPT\SearchForTextByVoice\image";
+                            string baseDirectory = ConfigurationManager.AppSettings["ImageDirectory"];
                             string fileName = record.tenFile;
                             string filePath = Path.Combine(baseDirectory, fileName);
 
@@ -403,7 +404,7 @@ namespace SearchMultiMedia
                 {
                     try
                     {
-                        string baseDirectory = @"B:\DPT\SearchForTextByVoice\image";
+                        string baseDirectory = ConfigurationManager.AppSettings["ImageDirectory"];
                         string fileName = record.tenFile;
                         string filePath = Path.Combine(baseDirectory, fileName);
 
@@ -472,7 +473,7 @@ namespace SearchMultiMedia
                 {
                     try
                     {
-                        string baseDirectory = @"B:\DPT\SearchForTextByVoice\audio\";
+                        string baseDirectory = ConfigurationManager.AppSettings["AudioDirectory"];
                         string fileName = record.tenFile;
                         string filePath = Path.Combine(baseDirectory, fileName);
 
@@ -1006,7 +1007,6 @@ namespace SearchMultiMedia
             {
                 int recordId = (int)linkLabel.Tag;
 
-                string connectionString = "Data Source=LAPTOP-79T4Q5ET\\BACH;Initial Catalog=DPT;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
                 string query = "SELECT TieuDe, NoiDungTomTat, NoiDung FROM VanBan WHERE ID = @ID";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))

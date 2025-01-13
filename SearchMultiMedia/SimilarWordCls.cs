@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace SearchMultiMedia
         public static double[] getFeaVector2(string str, ref ArrayList fealst)
         {
             str = str.ToLower();
-            string text = @"B:\DPT\xlnntn\text.txt";
+            string text = ConfigurationManager.AppSettings["VnTokenizerText"];
             saveToFileUTF8(text, str);
             string[] strlist = getTokTxt(text);
 
@@ -33,9 +34,9 @@ namespace SearchMultiMedia
 
         public static string[] getTokTxt(string fileIn)
         {
-            string text = @"B:\DPT\xlnntn\tok.txt";
+            string text = ConfigurationManager.AppSettings["VnTokenizerTok"];
             string para = "-i " + fileIn + " -o " + text;
-            RunExe(@"B:\DPT\xlnntn\vnTokenizer.bat", para);
+            RunExe(ConfigurationManager.AppSettings["VnTokenizerBat"], para);
             string str = readFileUTF8(text);
             return getFeaArr(str);
         }
