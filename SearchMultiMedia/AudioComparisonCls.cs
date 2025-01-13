@@ -10,7 +10,8 @@ namespace SearchMultiMedia
 {
     internal class AudioComparisonCls
     {
-        public static List<(int id, double distance_spectral_centroid, double distance_spectral_bandwidths, double distance_mfcc)> CompareAudioToDatabase(string fileAudio, string connectionString)
+        public static List<(int id, double distance_spectral_centroid, double distance_spectral_bandwidths, double distance_mfcc)> CompareAudioToDatabase
+            (string fileAudio, string connectionString)
         {
             var (centroids, bandwidths) = ExtractSpectralFeatures(fileAudio, 0);
             //var mfccFeatures = ExtractMFCCFeatures(fileAudio, 0);
@@ -62,8 +63,8 @@ namespace SearchMultiMedia
         }
         private static (List<double> centroids, List<double> bandwidths) ExtractSpectralFeatures(string fileAudio, int id)
         {
-            string centroidFile = Path.Combine(@"C:\\Users\\Admin\\source\\repos\\SearchMultiMedia\\SearchMultiMedia\\bin\\Debug\\net8.0-windows", $"spectral_features_centroid.txt");
-            string bandwidthFile = Path.Combine(@"C:\\Users\\Admin\\source\\repos\\SearchMultiMedia\\SearchMultiMedia\\bin\\Debug\\net8.0-windows", $"spectral_features_bandwidths.txt");
+            string centroidFile = "spectral_features_centroid.txt";
+            string bandwidthFile = "spectral_features_bandwidths.txt";
 
             string para = $"spectral_features.py \"{fileAudio}\"";
             RunExe("python", para);  // RunExe cần được sửa để chạy đồng bộ
@@ -83,7 +84,7 @@ namespace SearchMultiMedia
         }
         private static List<List<double>> ExtractMFCCFeatures(string fileAudio, int id)
         {
-            string resultFile = Path.Combine(@"C:\\Users\\Admin\\source\\repos\\SearchMultiMedia\\SearchMultiMedia\\bin\\Debug\\net8.0-windows", $"mfcc.txt");
+            string resultFile = "mfcc.txt";
 
             string para = $"mfcc.py \"{fileAudio}\"";
             RunExe("python", para);  // RunExe cần được sửa để chạy đồng bộ
