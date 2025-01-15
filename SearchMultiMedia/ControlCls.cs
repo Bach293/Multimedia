@@ -217,7 +217,7 @@ namespace SearchMultiMedia
             }
             Console.WriteLine($"Found {audioDistanceRecords.Count} similar audio records.");
             var topRecords = audioDistanceRecords
-                .OrderBy(record => 0.5 * record.distance_spectral_bandwidths + 0.5 * record.distance_spectral_centroid)
+                .OrderBy(record => 0.35 * record.distance_spectral_bandwidths + 0.35 * record.distance_spectral_centroid + 0.3 * record.distance_chroma)
                 .ToList();
             List<(int id, string tenFile, string tieuDe, string noiDungTomTat, double distance)> result = new();
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -237,7 +237,7 @@ namespace SearchMultiMedia
                                 string tenFile = reader.GetString(0);
                                 string tieuDe = reader.GetString(1);
                                 string noiDungTomTat = reader.GetString(2);
-                                double distance = 0.5 * record.distance_spectral_bandwidths + 0.5 * record.distance_spectral_centroid;
+                                double distance = 0.35 * record.distance_spectral_bandwidths + 0.35 * record.distance_spectral_centroid + 0.3 * record.distance_chroma;
                                 result.Add((record.id, tenFile, tieuDe, noiDungTomTat, distance));
                             }
                         }
