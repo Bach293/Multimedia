@@ -10,7 +10,7 @@
         /// <summary>
         ///  Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -46,6 +46,8 @@
             lblResultText = new Label();
             lblResultAudio = new Label();
             lblResultImage = new Label();
+            lblRecordingIndicator = new PictureBox();
+            lblRecordingTime = new Label();
             SuspendLayout();
             // 
             // btnRecord
@@ -57,6 +59,23 @@
             btnRecord.Text = "Ghi âm";
             btnRecord.UseVisualStyleBackColor = true;
             btnRecord.Click += btnRecord_Click;
+            // 
+            // lblRecordingIndicator
+            // 
+            lblRecordingIndicator.Size = new Size(20, 20);
+            lblRecordingIndicator.Visible = false;
+            lblRecordingIndicator.Location = new Point(1387, 17);
+            lblRecordingIndicator.Paint += LblRecordingIndicator_Paint;
+            // 
+            // lblRecordingTime
+            // 
+            lblRecordingTime.AutoSize = true;
+            lblRecordingTime.Location = new Point(1376, 58);
+            lblRecordingTime.Name = "lblRecordingTime";
+            lblRecordingTime.Size = new Size(113, 20);
+            lblRecordingTime.TabIndex = 1;
+            lblRecordingTime.Text = "Thời gian: 00:00";
+            lblRecordingTime.Visible = false;
             // 
             // textBox1
             // 
@@ -207,6 +226,8 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1489, 658);
+            Controls.Add(lblRecordingIndicator);
+            Controls.Add(lblRecordingTime);
             Controls.Add(lblResultImage);
             Controls.Add(lblResultAudio);
             Controls.Add(lblResultText);
@@ -233,23 +254,34 @@
 
         #endregion
 
-        private Button btnRecord;
-        private TextBox textBox1;
-        private Label label1;
-        private Label label2;
-        private Label label3;
-        private Button btnSelectImage;
-        private Button btnStopRecording;
-        private Button btnSearch;
-        private FlowLayoutPanel flpText;
-        private FlowLayoutPanel flpAudio;
-        private FlowLayoutPanel flpImage;
-        private Button btnRemove;
-        private FlowLayoutPanel flpTextPanel;
-        private FlowLayoutPanel flpAudioPanel;
-        private FlowLayoutPanel flpImagePanel;
-        private Label lblResultText;
-        private Label lblResultAudio;
-        private Label lblResultImage;
+        private System.Windows.Forms.Button btnRecord;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnSelectImage;
+        private System.Windows.Forms.Button btnStopRecording;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.FlowLayoutPanel flpText;
+        private System.Windows.Forms.FlowLayoutPanel flpAudio;
+        private System.Windows.Forms.FlowLayoutPanel flpImage;
+        private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.FlowLayoutPanel flpTextPanel;
+        private System.Windows.Forms.FlowLayoutPanel flpAudioPanel;
+        private System.Windows.Forms.FlowLayoutPanel flpImagePanel;
+        private System.Windows.Forms.Label lblResultText;
+        private System.Windows.Forms.Label lblResultAudio;
+        private System.Windows.Forms.Label lblResultImage;
+        private System.Windows.Forms.PictureBox lblRecordingIndicator;
+        private System.Windows.Forms.Label lblRecordingTime;
+
+        private void LblRecordingIndicator_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias; // Làm mịn cạnh
+            using (SolidBrush brush = new SolidBrush(Color.Red)) // Màu đỏ cho hình tròn
+            {
+                e.Graphics.FillEllipse(brush, 0, 0, lblRecordingIndicator.Width, lblRecordingIndicator.Height); // Vẽ hình tròn
+            }
+        }
     }
 }
