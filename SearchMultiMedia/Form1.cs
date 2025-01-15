@@ -25,10 +25,13 @@ namespace SearchMultiMedia
         private const int itemsPerPage = 5;
         private System.Windows.Forms.Timer timerRecording = new System.Windows.Forms.Timer { Interval = 1000 };
         Stopwatch stopwatch = new Stopwatch();
+        private bool isBlinking = false;
+        private System.Windows.Forms.Timer blinkTimer = new System.Windows.Forms.Timer { Interval = 850 };
         public Form1()
         {
             InitializeComponent();
             InitializeTimer();
+            InitializeBlinkTimer();
         }
         private void btnSelectImage_Click(object sender, EventArgs e)
         {
@@ -74,6 +77,8 @@ namespace SearchMultiMedia
                 lblRecordingIndicator.Visible = true;
                 lblRecordingTime.Visible = true;
                 lblRecordingTime.Text = "Thời gian: 00:00";
+                isBlinking = true;
+                blinkTimer.Start();
                 stopwatch.Restart();
                 timerRecording.Start();
             }
@@ -96,6 +101,8 @@ namespace SearchMultiMedia
             try
             {
                 waveIn.StopRecording();
+                isBlinking = false;
+                blinkTimer.Stop();
                 // Ẩn chấm đỏ và dừng đếm thời gian
                 lblRecordingIndicator.Visible = false;
                 lblRecordingTime.Visible = false;
@@ -1111,6 +1118,16 @@ namespace SearchMultiMedia
             {
                 TimeSpan elapsed = stopwatch.Elapsed;
                 lblRecordingTime.Text = $"Thời gian: {elapsed.Minutes:D2}:{elapsed.Seconds:D2}";
+            };
+        }
+        private void InitializeBlinkTimer()
+        {
+            blinkTimer.Tick += (s, e) =>
+            {
+                if (isBlinking)
+                {
+                    lblRecordingIndicator.Visible = !lblRecordingIndicator.Visible;
+                }
             };
         }
     }

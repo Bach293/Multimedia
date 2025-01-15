@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{9A0A483C-C1E8-46CF-8A3E-C4B8FB394451}|SearchMultiMedia\\SearchMultiMedia.csproj|solutionrelative:searchmultimedia\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9A0A483C-C1E8-46CF-8A3E-C4B8FB394451}|SearchMultiMedia\\SearchMultiMedia.csproj|c:\\httt1\\cuoiki\\searchmultimedia\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{9A0A483C-C1E8-46CF-8A3E-C4B8FB394451}|SearchMultiMedia\\SearchMultiMedia.csproj|solutionrelative:searchmultimedia\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{9A0A483C-C1E8-46CF-8A3E-C4B8FB394451}|SearchMultiMedia\\SearchMultiMedia.csproj|c:\\httt1\\cuoiki\\searchmultimedia\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9A0A483C-C1E8-46CF-8A3E-C4B8FB394451}|SearchMultiMedia\\SearchMultiMedia.csproj|solutionrelative:searchmultimedia\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9A0A483C-C1E8-46CF-8A3E-C4B8FB394451}|SearchMultiMedia\\SearchMultiMedia.csproj|C:\\HTTT1\\cuoiki\\searchmultimedia\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{9A0A483C-C1E8-46CF-8A3E-C4B8FB394451}|SearchMultiMedia\\SearchMultiMedia.csproj|solutionrelative:searchmultimedia\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,13 +26,13 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Form1.Designer.cs",
               "DocumentMoniker": "C:\\HTTT1\\cuoiki\\SearchMultiMedia\\Form1.Designer.cs",
               "RelativeDocumentMoniker": "SearchMultiMedia\\Form1.Designer.cs",
               "ToolTip": "C:\\HTTT1\\cuoiki\\SearchMultiMedia\\Form1.Designer.cs",
               "RelativeToolTip": "SearchMultiMedia\\Form1.Designer.cs",
-              "ViewState": "AgIAAAkBAAAAAAAAAAAqwB8BAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAN8AAAAAAAAAAAAqwB8BAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-14T16:00:15.909Z",
               "IsPinned": true,
@@ -40,7 +40,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Form1.cs [Design]",
               "DocumentMoniker": "C:\\HTTT1\\cuoiki\\SearchMultiMedia\\Form1.cs",
               "RelativeDocumentMoniker": "SearchMultiMedia\\Form1.cs",
@@ -58,7 +58,7 @@
               "RelativeDocumentMoniker": "SearchMultiMedia\\Form1.cs",
               "ToolTip": "C:\\HTTT1\\cuoiki\\SearchMultiMedia\\Form1.cs",
               "RelativeToolTip": "SearchMultiMedia\\Form1.cs",
-              "ViewState": "AgIAADgDAAAAAAAAAAAAwGwAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAD4vxwAAABmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-14T16:00:05.831Z",
               "EditorCaption": ""
