@@ -3,6 +3,10 @@ using NAudio.Wave;
 using System.Diagnostics;
 using System.Text;
 using System.Configuration;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
 
 namespace SearchMultiMedia
 {
@@ -23,10 +27,63 @@ namespace SearchMultiMedia
         private int currentPageAudio = 1;
         private int currentPageImage = 1;
         private const int itemsPerPage = 5;
+        private System.Windows.Forms.Timer timerRecording = new System.Windows.Forms.Timer { Interval = 1000 };
         Stopwatch stopwatch = new Stopwatch();
+        private bool isBlinking = false;
+        private System.Windows.Forms.Timer blinkTimer = new System.Windows.Forms.Timer { Interval = 500 };
         public Form1()
         {
             InitializeComponent();
+            CustomizeUI();
+            CustomizeLabels();
+            CustomizeButtonUI();
+            InitializeTimer();
+            InitializeBlinkTimer();
+
+            // Đặt tiêu đề cho Form
+            this.Text = "Nhóm 9 Đa phương tiện";
+
+            // Đặt màu nền cho Form
+            this.BackColor = Color.LightBlue; // Thay đổi màu nền thành LightBlue (hoặc bất kỳ màu nào bạn muốn)
+        }
+        private void CustomizeButtonUI()
+        {
+            // Hàm tùy chỉnh giao diện nút (không thay đổi vị trí)
+            void CustomizeButtonStyle(Button button, Color normalColor, Color hoverColor)
+            {
+                button.Font = new Font("Segoe UI", 10, FontStyle.Bold); // Font chữ
+                button.ForeColor = Color.White;                        // Màu chữ
+                button.BackColor = normalColor;                        // Màu nền mặc định
+                button.FlatStyle = FlatStyle.Flat;                     // Không viền nổi
+                button.FlatAppearance.BorderSize = 0;                  // Không viền
+                button.Cursor = Cursors.Hand;                         // Con trỏ chuột khi hover
+
+                // Hiệu ứng hover
+                button.MouseEnter += (s, e) => button.BackColor = hoverColor;
+                button.MouseLeave += (s, e) => button.BackColor = normalColor;
+            }
+
+            // Cài đặt giao diện cho từng nút
+            CustomizeButtonStyle(btnSearch, Color.DodgerBlue, Color.MediumBlue);       // Nút Tìm kiếm
+            CustomizeButtonStyle(btnRecord, Color.SeaGreen, Color.DarkGreen);         // Nút Ghi âm
+            CustomizeButtonStyle(btnSelectImage, Color.Orange, Color.DarkOrange);     // Nút Chọn ảnh
+            CustomizeButtonStyle(btnStopRecording, Color.Crimson, Color.DarkRed);     // Nút Dừng ghi âm
+        }
+        private void CustomizeLabels()
+        {
+            void CustomizeLabel(Label label, string text, int fontSize, Color textColor, ContentAlignment alignment)
+            {
+                label.Text = text; // Nội dung Label
+                label.Font = new Font("Segoe UI", fontSize, FontStyle.Bold); // Phông chữ đẹp
+                label.ForeColor = textColor; // Màu chữ
+                label.TextAlign = alignment; // Căn chỉnh
+                label.BackColor = Color.Transparent; // Nền trong suốt
+            }
+
+            // Tùy chỉnh từng Label
+            CustomizeLabel(label1, "Văn bản", 12, Color.DodgerBlue, ContentAlignment.MiddleCenter);
+            CustomizeLabel(label2, "Âm thanh", 12, Color.SeaGreen, ContentAlignment.MiddleCenter);
+            CustomizeLabel(label3, "Hình ảnh", 12, Color.DarkOrange, ContentAlignment.MiddleCenter);
         }
         private void btnSelectImage_Click(object sender, EventArgs e)
         {
@@ -66,9 +123,16 @@ namespace SearchMultiMedia
                 waveFileWriter = new WaveFileWriter(filePath, waveIn.WaveFormat);
 
                 waveIn.StartRecording();
-                MessageBox.Show("Đang ghi âm...", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageBox.Show("Đang ghi âm...", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 textBox1.Text = filePath;
+                lblRecordingIndicator.Visible = true;
+                lblRecordingTime.Visible = true;
+                lblRecordingTime.Text = "Thời gian: 00:00";
+                isBlinking = true;
+                blinkTimer.Start();
+                stopwatch.Restart();
+                timerRecording.Start();
             }
             catch (Exception ex)
             {
@@ -89,6 +153,13 @@ namespace SearchMultiMedia
             try
             {
                 waveIn.StopRecording();
+                isBlinking = false;
+                blinkTimer.Stop();
+                // Ẩn chấm đỏ và dừng đếm thời gian
+                lblRecordingIndicator.Visible = false;
+                lblRecordingTime.Visible = false;
+                timerRecording.Stop();
+                stopwatch.Stop();
             }
             catch (Exception ex)
             {
@@ -544,12 +615,12 @@ namespace SearchMultiMedia
                 TextAlign = ContentAlignment.MiddleCenter
             };
             firstPageButton.Click += (sender, e) =>
-                {
-                    currentPageText = 1;
-                    flpTextPanel.Controls.Clear();
-                    DisplayResultsTextWhenSearchForText();
-                    DisplayPaginationText();
-                };
+            {
+                currentPageText = 1;
+                flpTextPanel.Controls.Clear();
+                DisplayResultsTextWhenSearchForText();
+                DisplayPaginationText();
+            };
 
             Button prevButton = new Button
             {
@@ -564,12 +635,12 @@ namespace SearchMultiMedia
                 TextAlign = ContentAlignment.MiddleCenter
             };
             prevButton.Click += (sender, e) =>
-                    {
-                        currentPageText--;
-                        flpTextPanel.Controls.Clear();
-                        DisplayResultsTextWhenSearchForText();
-                        DisplayPaginationText();
-                    };
+            {
+                currentPageText--;
+                flpTextPanel.Controls.Clear();
+                DisplayResultsTextWhenSearchForText();
+                DisplayPaginationText();
+            };
 
             Button nextButton = new Button
             {
@@ -1092,6 +1163,57 @@ namespace SearchMultiMedia
         private void btnRemove_Click(object sender, EventArgs e)
         {
             textBox1.Text = "";
+        }
+        private void CustomizeUI()
+        {
+            // Tùy chỉnh TextBox
+            textBox1.Font = new Font("Segoe UI", 12);
+            textBox1.ForeColor = Color.Gray;
+            textBox1.BackColor = Color.White;
+            textBox1.BorderStyle = BorderStyle.FixedSingle;
+            textBox1.Text = "Nhập nội dung...";
+            textBox1.Enter += (s, e) => {
+                if (textBox1.Text == "Nhập nội dung...")
+                {
+                    textBox1.Text = "";
+                    textBox1.ForeColor = Color.Black;
+                }
+            };
+            textBox1.Leave += (s, e) => {
+                if (string.IsNullOrWhiteSpace(textBox1.Text))
+                {
+                    textBox1.Text = "Nhập nội dung...";
+                    textBox1.ForeColor = Color.Gray;
+                }
+            };
+
+            // Tùy chỉnh Button Xóa
+            btnRemove.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            btnRemove.BackColor = Color.LightCoral;
+            btnRemove.ForeColor = Color.White;
+            btnRemove.FlatStyle = FlatStyle.Flat;
+            btnRemove.FlatAppearance.BorderSize = 0;
+            btnRemove.Cursor = Cursors.Hand;
+            btnRemove.MouseEnter += (s, e) => btnRemove.BackColor = Color.Red;
+            btnRemove.MouseLeave += (s, e) => btnRemove.BackColor = Color.LightCoral;
+        }
+        private void InitializeTimer()
+        {
+            timerRecording.Tick += (s, e) =>
+            {
+                TimeSpan elapsed = stopwatch.Elapsed;
+                lblRecordingTime.Text = $"Thời gian: {elapsed.Minutes:D2}:{elapsed.Seconds:D2}";
+            };
+        }
+        private void InitializeBlinkTimer()
+        {
+            blinkTimer.Tick += (s, e) =>
+            {
+                if (isBlinking)
+                {
+                    lblRecordingIndicator.Visible = !lblRecordingIndicator.Visible;
+                }
+            };
         }
     }
 }
