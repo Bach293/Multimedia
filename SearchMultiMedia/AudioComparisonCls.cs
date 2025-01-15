@@ -10,15 +10,16 @@ namespace SearchMultiMedia
 {
     internal class AudioComparisonCls
     {
-        public static List<(int id, double distance_spectral_centroid, double distance_spectral_bandwidths, double distance_mfcc)> CompareAudioToDatabase
+        public static List<(int id, double distance_spectral_centroid, double distance_spectral_bandwidths, double distance_chroma)> CompareAudioToDatabase
             (string fileAudio, string connectionString)
         {
             var (centroids, bandwidths) = ExtractSpectralFeatures(fileAudio, 0);
+            var chroma = ExtractChromaFeature(fileAudio, 0);
             //var mfccFeatures = ExtractMFCCFeatures(fileAudio, 0);
             //var sequenceToCompareMfcc = MFCC.ExtractSequenceFromMFCC(mfccFeatures);
 
-            string selectQuery = "SELECT ID, SpectralCentroid, SpectralBandwidth, MFCC FROM AmThanh";
-            List<(int id, double distance_spectral_centroid, double distance_spectral_bandwidths, double distance_mfcc)> similarities = new List<(int, double, double, double)>();
+            string selectQuery = "SELECT ID, SpectralCentroid, SpectralBandwidth, ChromaFeature FROM AmThanh";
+            List<(int id, double distance_spectral_centroid, double distance_spectral_bandwidths, double distance_chroma)> similarities = new List<(int, double, double, double)>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -34,10 +35,12 @@ namespace SearchMultiMedia
 
                                 string centroidFeatures = reader.GetString(1);
                                 string bandwidthFeatures = reader.GetString(2);
-                                string mfccFeaturesDb = reader.GetString(3);
+                                //string mfccFeaturesDb = reader.GetString(3);
+                                string chromaFeaturesDb = reader.GetString(3);
 
                                 var centroidsDb = centroidFeatures.Split(',').Select(double.Parse).ToList();
                                 var bandwidthsDb = bandwidthFeatures.Split(',').Select(double.Parse).ToList();
+                                var chromaDb = chromaFeaturesDb.Split(',').Select(double.Parse).ToList();
 
                                 //var mfccFeaturesDbList = GetMFCCFromDB(mfccFeaturesDb);
                                 //var sequenceDbMfcc = MFCC.ExtractSequenceFromMFCC(mfccFeaturesDbList);
@@ -45,10 +48,9 @@ namespace SearchMultiMedia
                                 //double distanceMfcc = DTW_Distance_Standard(sequenceToCompareMfcc, sequenceDbMfcc);
                                 double distanceSpectralCentroid = CalculateDTW(centroids.ToArray(), centroidsDb.ToArray());
                                 double distanceSpectralBandwidths = CalculateDTW(bandwidths.ToArray(), bandwidthsDb.ToArray());
+                                double distanceChroma = CalculateDTW(chroma.ToArray(), chromaDb.ToArray());
 
-                                double distanceMfcc = 0.0;
-
-                                similarities.Add((id, distanceSpectralCentroid, distanceSpectralBandwidths, distanceMfcc));
+                                similarities.Add((id, distanceSpectralCentroid, distanceSpectralBandwidths, distanceChroma));
                             }
                         }
                     }
@@ -76,6 +78,24 @@ namespace SearchMultiMedia
                 File.Delete(centroidFile);
                 File.Delete(bandwidthFile);
                 return (centroids, bandwidths);
+            }
+            else
+            {
+                throw new FileNotFoundException("Spectral feature files not found.");
+            }
+        }
+        private static List<double> ExtractChromaFeature(string fileAudio, int id)
+        {
+            string chromaFile = "chroma_features.txt";
+
+            string para = $"chroma_features.py \"{fileAudio}\"";
+            RunExe("python", para);  // RunExe cần được sửa để chạy đồng bộ
+
+            if (File.Exists(chromaFile))
+            {
+                var chroma = GetFeaturesFromTextFile(chromaFile);
+                File.Delete(chromaFile);
+                return chroma;
             }
             else
             {

@@ -18,7 +18,9 @@ class Program
 
         //await ImageCls.ProcessAndSaveImageDataAsync(connectionString);
 
-        await Image_Features_Cls.ProcessAndSaveImageFeaturesAsync(connectionString);
+        //await Image_Features_Cls.ProcessAndSaveImageFeaturesAsync(connectionString);
+
+        await Audio_ChromaFeature_Cls.ProcessAndSaveChromaFeaturesAsync(connectionString);
         Console.WriteLine("Processing completed successfully!");
     }
 }
