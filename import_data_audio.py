@@ -8,7 +8,7 @@ def connect_to_sql_server():
             "Driver={SQL Server};"  # Driver cho SQL Server
             "Server=LAPTOP-79T4Q5ET\\BACH;"  # Tên server (thay YOUR_SERVER_NAME)
             "Database=DPT;"  # Tên database (thay YOUR_DATABASE_NAME)
-            "Trusted_Connection=yes;"  # Sử dụng Windows Authentication
+            "Trusted_Connection=yes;"
         )
         
         # Thực hiện kết nối
