@@ -5,7 +5,7 @@ import re
 def connect_to_sql_server():
     try:
         connection_string = (
-            "Driver={SQL Server};"  # Driver cho SQL Server
+            "Driver={SQL Server};"
             "Server=LAPTOP-79T4Q5ET\\BACH;"
             "Database=DPT;"
             "Trusted_Connection=yes;"
